@@ -23,6 +23,7 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* pwm3901.c: PMW3901 driver */
+/* PMW3901 driver is the optical flow sensor */
 #define DEBUG_MODULE "PMW"
 
 #include "FreeRTOS.h"
@@ -35,6 +36,7 @@
 #include "log.h"
 #include "param.h"
 #include "sleepus.h"
+
 
 
 static bool isInit = false;

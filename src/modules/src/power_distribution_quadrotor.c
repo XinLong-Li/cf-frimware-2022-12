@@ -51,11 +51,12 @@ bool powerDistributionTest(void)
   return pass;
 }
 
-#define limitThrust(VAL) limitUint16(VAL)
+#define limitThrust(VAL) limitUint16(VAL) // 0~65535
 
+// distribute power to each motor
 void powerDistribution(motors_thrust_t* motorPower, const control_t *control)
 {
-  int16_t r = control->roll / 2.0f;
+  int16_t r = control->roll / 2.0f; // devide by 2 to distribute the power to 2 motors
   int16_t p = control->pitch / 2.0f;
   motorPower->m1 = limitThrust(control->thrust - r + p + control->yaw);
   motorPower->m2 = limitThrust(control->thrust - r - p - control->yaw);

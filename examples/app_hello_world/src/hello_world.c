@@ -36,15 +36,20 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#define DEBUG_MODULE "HELLOWORLD"
+#define DEBUG_MODULE "HELLO_WORLD"
 #include "debug.h"
 
+#include "motors.h"
 
 void appMain() {
   DEBUG_PRINT("Waiting for activation ...\n");
+  int count_loop = 0;
+  // uint16_t thrust_cmd = 6000;
 
   while(1) {
-    vTaskDelay(M2T(2000));
+    vTaskDelay(M2T(1000));
     DEBUG_PRINT("Hello World!\n");
+    DEBUG_PRINT("%d\n",count_loop++);
+    // motorsSetRatio(MOTOR_M2, thrust_cmd);
   }
 }

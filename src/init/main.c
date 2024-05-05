@@ -44,6 +44,25 @@
 
 #include "bootloader.h"
 
+#define DEBUG_MODULE "My_Motor"
+#include "debug.h"
+
+#include "motors.h"
+
+void motor2_task()
+{
+  DEBUG_PRINT("Waiting for activation ...\n");
+  int count_loop = 0;
+  uint16_t thrust_cmd = 6000;
+
+  while(1) {
+    vTaskDelay(M2T(1000));
+    DEBUG_PRINT("My Motor Test!\n");
+    DEBUG_PRINT("%d\n",count_loop++);
+    motorsSetRatio(MOTOR_M2, thrust_cmd);
+  }
+}
+
 int main() 
 {
   check_enter_bootloader();
@@ -57,6 +76,13 @@ int main()
 
   //Launch the system task that will initialize and start everything
   systemLaunch();
+
+
+  //test my own task 测试我的任务
+  // xTaskCreate(motor2_task, "motor2_task",256, NULL, 1, NULL);
+
+
+
 
   //Start the FreeRTOS scheduler
   vTaskStartScheduler();
