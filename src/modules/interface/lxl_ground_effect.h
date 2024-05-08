@@ -6,9 +6,9 @@
  * lxl_ground_effect.h - Ground effect module header
  */
 
-#ifndef __LXL_GROUND_EFFECT_H__
-#define __LXL_GROUND_EFFECT_H__
+#ifndef LXL_GROUND_EFFECT_H
+#define LXL_GROUND_EFFECT_H
 
-// put all the code in this protected area
+float ground_effect_coefficient(float hight_2ground);
 
 #endif //__LXL_GROUND_EFFECT_H__

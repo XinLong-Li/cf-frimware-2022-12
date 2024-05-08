@@ -6,9 +6,9 @@
  * lxl_ceiling_effect.h - Ceiling effect module header
  */
 
-#ifndef __LXL_CEILING_EFFECT_H__
-#define __LXL_CEILING_EFFECT_H__
+#ifndef LXL_CEILING_EFFECT_H
+#define LXL_CEILING_EFFECT_H
 
-// put all the code in this protected area
+float ceiling_effect_coefficient(float hight_2ground);
 
-#endif //__LXL_CEILING_EFFECT_H__
+#endif // LXL_CEILING_EFFECT_H

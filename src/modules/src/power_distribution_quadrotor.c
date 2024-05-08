@@ -32,6 +32,8 @@
 #include "num.h"
 #include "autoconf.h"
 #include "config.h"
+#include "lxl_ceiling_effect.h"
+// #include "lxl_ground_effect.h"
 
 #ifndef CONFIG_MOTORS_DEFAULT_IDLE_THRUST
 #  define DEFAULT_IDLE_THRUST 0

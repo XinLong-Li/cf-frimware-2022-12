@@ -24,6 +24,13 @@
  * motors_def.c - Mapping and configuration of motor outputs
  *
  */
+#include "motors.h"
+#include "stm32f4xx_gpio.h"   // STM32F4 系列的 GPIO 头文件
+#include "stm32f4xx_tim.h"    // STM32F4 系列的定时器头文件
+#include "stm32f4xx_rcc.h"    // STM32F4 系列的时钟控制头文件
+#include "stm32f4xx_dbgmcu.h" // STM32F4 系列的 MCU 调试头文件
+#include "stm32f4xx_dma.h"    // STM32F4 系列的 DMA 头文件
+#include "stm32f4xx.h"
 
 // CF2.X connector M1, PA1, TIM2_CH2
 static const MotorPerifDef MOTORS_PA1_TIM2_CH2_BRUSHED =
@@ -379,32 +386,32 @@ static const MotorPerifDef MOTORS_PA1_TIM2_CH2_BRUSHLESS_OD =
 
 // CF21-BL M2, PB11, TIM2_CH4, Brushless config including DSHOT
 static const MotorPerifDef MOTORS_PB11_TIM2_CH4_BRUSHLESS_OD =
-{
-    .drvType       = BRUSHLESS,
-    .gpioPerif     = RCC_AHB1Periph_GPIOB,
-    .gpioPort      = GPIOB,
-    .gpioPin       = GPIO_Pin_11,
-    .gpioPinSource = GPIO_PinSource11,
-    .gpioOType     = GPIO_OType_OD,
-    .gpioAF        = GPIO_AF_TIM2,
-    .gpioPowerswitchPerif = RCC_AHB1Periph_GPIOB,
-    .gpioPowerswitchPort  = GPIOB,
-    .gpioPowerswitchPin   = GPIO_Pin_12,
-    .timPerif      = RCC_APB1Periph_TIM2,
-    .tim           = TIM2,
-    .timPolarity   = TIM_OCPolarity_High,
-    .timDbgStop    = DBGMCU_TIM2_STOP,
-    .timPeriod     = MOTORS_BL_PWM_PERIOD,
-    .timPrescaler  = MOTORS_BL_PWM_PRESCALE,
-    .setCompare    = TIM_SetCompare4,
-    .getCompare    = TIM_GetCapture4,
-    .ocInit        = TIM_OC4Init,
-    .preloadConfig = TIM_OC4PreloadConfig,
-    .DMA_stream    = DMA1_Stream7,
-    .DMA_Channel   = DMA_Channel_3,
-    .DMA_PerifAddr = (uint32_t)&TIM2->CCR4,
-    .TIM_DMASource = TIM_DMA_CC4,
-    .DMA_IRQChannel = DMA1_Stream7_IRQn,
+    {
+        .drvType = BRUSHLESS,
+        .gpioPerif = RCC_AHB1Periph_GPIOB,
+        .gpioPort = GPIOB,
+        .gpioPin = GPIO_Pin_11,
+        .gpioPinSource = GPIO_PinSource11,
+        .gpioOType = GPIO_OType_OD,
+        .gpioAF = GPIO_AF_TIM2,
+        .gpioPowerswitchPerif = RCC_AHB1Periph_GPIOB,
+        .gpioPowerswitchPort = GPIOB,
+        .gpioPowerswitchPin = GPIO_Pin_12,
+        .timPerif = RCC_APB1Periph_TIM2,
+        .tim = TIM2,
+        .timPolarity = TIM_OCPolarity_High,
+        .timDbgStop = DBGMCU_TIM2_STOP,
+        .timPeriod = MOTORS_BL_PWM_PERIOD,
+        .timPrescaler = MOTORS_BL_PWM_PRESCALE,
+        .setCompare = TIM_SetCompare4,
+        .getCompare = TIM_GetCapture4,
+        .ocInit = TIM_OC4Init,
+        .preloadConfig = TIM_OC4PreloadConfig,
+        .DMA_stream = DMA1_Stream7,
+        .DMA_Channel = DMA_Channel_3,
+        .DMA_PerifAddr = (uint32_t)&TIM2->CCR4,
+        .TIM_DMASource = TIM_DMA_CC4,
+        .DMA_IRQChannel = DMA1_Stream7_IRQn,
 };
 
 // CF21-BL M3, PA15, TIM2_CH1, Brushless config including DSHOT

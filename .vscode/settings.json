@@ -5,6 +5,36 @@
         "**/bower_components": true
     },
     "files.associations": {
-        "bootloader.h": "c"
+        "bootloader.h": "c",
+        "param_logic.h": "c",
+        "timers.h": "c",
+        "app.h": "c",
+        "lkc.h": "c",
+        "amg8833.h": "c",
+        "string.h": "c",
+        "stdint.h": "c",
+        "stdint-gcc.h": "c",
+        "stdbool.h": "c",
+        "random": "cpp",
+        "freertosconfig.h": "c",
+        "debug.h": "c",
+        "*.tcc": "cpp",
+        "algorithm": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "utility": "cpp",
+        "cerrno": "c",
+        "cstdarg": "c",
+        "iostream": "c",
+        "streambuf": "c",
+        "app_channel.h": "c",
+        "config.h": "c",
+        "cstdio": "c",
+        "console.h": "c",
+        "position_controller.h": "c",
+        "lxl_ground_effect.h": "c",
+        "wordsize.h": "c",
+        "stm32fxxx.h": "c"
     }
 }
