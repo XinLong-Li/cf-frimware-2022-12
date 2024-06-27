@@ -9,6 +9,6 @@
 #ifndef LXL_GROUND_EFFECT_H
 #define LXL_GROUND_EFFECT_H
 
-float ground_effect_coefficient(float hight_2ground);
+float ground_effect_coefficient(float dist_to_ground);
 
 #endif //__LXL_GROUND_EFFECT_H__

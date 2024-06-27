@@ -9,6 +9,6 @@
 #ifndef LXL_CEILING_EFFECT_H
 #define LXL_CEILING_EFFECT_H
 
-float ceiling_effect_coefficient(float hight_2ground);
+float ceiling_effect_coefficient(float dist_to_ceiling);
 
 #endif // LXL_CEILING_EFFECT_H

@@ -32,8 +32,9 @@
 #include "num.h"
 #include "autoconf.h"
 #include "config.h"
+#include "lxl_param.h"
 #include "lxl_ceiling_effect.h"
-// #include "lxl_ground_effect.h"
+#include "lxl_ground_effect.h"
 
 #ifndef CONFIG_MOTORS_DEFAULT_IDLE_THRUST
 #  define DEFAULT_IDLE_THRUST 0
@@ -55,10 +56,10 @@ bool powerDistributionTest(void)
 
 #define limitThrust(VAL) limitUint16(VAL) // 0~65535
 
-// distribute power to each motor
+// Motor Mixing Algorithm for 'X' Quadrotor
 void powerDistribution(motors_thrust_t* motorPower, const control_t *control)
 {
-  int16_t r = control->roll / 2.0f; // devide by 2 to distribute the power to 2 motors
+  int16_t r = control->roll / 2.0f; // devide by 2 because this is a 'X' quadrotor
   int16_t p = control->pitch / 2.0f;
   motorPower->m1 = limitThrust(control->thrust - r + p + control->yaw);
   motorPower->m2 = limitThrust(control->thrust - r - p - control->yaw);

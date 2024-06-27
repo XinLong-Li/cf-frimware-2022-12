@@ -35,6 +35,11 @@
         "position_controller.h": "c",
         "lxl_ground_effect.h": "c",
         "wordsize.h": "c",
-        "stm32fxxx.h": "c"
+        "stm32fxxx.h": "c",
+        "lxl_ceiling_effect.h": "c",
+        "param.h": "c",
+        "imu_types.h": "c",
+        "lighthouse_types.h": "c",
+        "mm_tof.h": "c"
     }
 }
