@@ -61,11 +61,13 @@ void powerDistribution(motors_thrust_t* motorPower, const control_t *control)
 {
   int16_t r = control->roll / 2.0f; // devide by 2 because this is a 'X' quadrotor
   int16_t p = control->pitch / 2.0f;
-  float ge_coefficient = 1.5;
-  motorPower->m1 = limitThrust(control->thrust / ge_coefficient - r + p + control->yaw);
-  motorPower->m2 = limitThrust(control->thrust / ge_coefficient - r - p - control->yaw);
-  motorPower->m3 =  limitThrust(control->thrust / ge_coefficient + r - p + control->yaw);
-  motorPower->m4 =  limitThrust(control->thrust / ge_coefficient + r + p - control->yaw);
+  float ge_coefficient = 1.0; // ground effect coefficient, usually it is bigger than 1.0
+  float ce_coefficient = 1.0; // ceiling effect coefficient, usually it is bigger than 1.0
+  float motor_thrust = control->thrust / ge_coefficient / ce_coefficient; //The thrust that actually needs to be provided by the motors
+  motorPower->m1 = limitThrust(motor_thrust - r + p + control->yaw);
+  motorPower->m2 = limitThrust(motor_thrust - r - p - control->yaw);
+  motorPower->m3 = limitThrust(motor_thrust + r - p + control->yaw);
+  motorPower->m4 = limitThrust(motor_thrust + r + p - control->yaw);
 
   if (motorPower->m1 < idleThrust) {
     motorPower->m1 = idleThrust;
