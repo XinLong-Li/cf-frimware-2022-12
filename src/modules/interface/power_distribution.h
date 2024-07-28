@@ -27,10 +27,11 @@
 #define __POWER_DISTRIBUTION_H__
 
 #include "stabilizer_types.h"
+#include "stabilizer.h"
 
 
 void powerDistributionInit(void);
 bool powerDistributionTest(void);
-void powerDistribution(motors_thrust_t* motorPower, const control_t *control);
+void powerDistribution(motors_thrust_t* motorPower, const control_t *control, const state_t *state);
 
 #endif //__POWER_DISTRIBUTION_H__

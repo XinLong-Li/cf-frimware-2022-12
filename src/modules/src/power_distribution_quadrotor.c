@@ -57,12 +57,15 @@ bool powerDistributionTest(void)
 #define limitThrust(VAL) limitUint16(VAL) // 0~65535
 
 // Motor Mixing Algorithm for 'X' Quadrotor
-void powerDistribution(motors_thrust_t* motorPower, const control_t *control)
+void powerDistribution(motors_thrust_t* motorPower, const control_t *control, const state_t *state)
 {
   int16_t r = control->roll / 2.0f; // devide by 2 because this is a 'X' quadrotor
   int16_t p = control->pitch / 2.0f;
   float ge_coefficient = 1.0; // ground effect coefficient, usually it is bigger than 1.0
-  float ce_coefficient = 1.0; // ceiling effect coefficient, usually it is bigger than 1.0
+  // float ce_coefficient = 1.0; // ceiling effect coefficient, usually it is bigger than 1.0
+  // float ge_coefficient = ground_effect_coefficient(state->position.z);
+  float ce_coefficient = ceiling_effect_coefficient(state->position.z);
+
   float motor_thrust = control->thrust / ge_coefficient / ce_coefficient; //The thrust that actually needs to be provided by the motors
   motorPower->m1 = limitThrust(motor_thrust - r + p + control->yaw);
   motorPower->m2 = limitThrust(motor_thrust - r - p - control->yaw);

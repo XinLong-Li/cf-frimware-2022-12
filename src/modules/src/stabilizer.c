@@ -285,7 +285,7 @@ static void stabilizerTask(void* param)
       if (emergencyStop || (systemIsArmed() == false)) {
         motorsStop();
       } else {
-        powerDistribution(&motorPower, &control);
+        powerDistribution(&motorPower, &control, &state);
         motorsSetRatio(MOTOR_M1, motorPower.m1);
         motorsSetRatio(MOTOR_M2, motorPower.m2);
         motorsSetRatio(MOTOR_M3, motorPower.m3);
