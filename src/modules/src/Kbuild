@@ -73,5 +73,4 @@ obj-$(CONFIG_ESTIMATOR_KALMAN_ENABLE) += kalman_core/
 obj-y += lighthouse/
 
 # lxl's ground effect and ceiling effect module
-obj-y += lxl_ground_effect.o
-obj-y += lxl_ceiling_effect.o
+obj-y += lxl_proximity_effects.o

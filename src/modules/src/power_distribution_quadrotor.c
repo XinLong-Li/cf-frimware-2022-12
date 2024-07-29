@@ -32,9 +32,10 @@
 #include "num.h"
 #include "autoconf.h"
 #include "config.h"
-#include "lxl_param.h"
-#include "lxl_ceiling_effect.h"
-#include "lxl_ground_effect.h"
+// #include "lxl_param.h"
+// #include "lxl_ceiling_effect.h"
+// #include "lxl_ground_effect.h"
+#include "lxl_proximity_effects.h"
 
 #ifndef CONFIG_MOTORS_DEFAULT_IDLE_THRUST
 #  define DEFAULT_IDLE_THRUST 0
@@ -61,9 +62,9 @@ void powerDistribution(motors_thrust_t* motorPower, const control_t *control, co
 {
   int16_t r = control->roll / 2.0f; // devide by 2 because this is a 'X' quadrotor
   int16_t p = control->pitch / 2.0f;
-  float ge_coefficient = 1.0; // ground effect coefficient, usually it is bigger than 1.0
+  // float ge_coefficient = 1.0; // ground effect coefficient, usually it is bigger than 1.0
   // float ce_coefficient = 1.0; // ceiling effect coefficient, usually it is bigger than 1.0
-  // float ge_coefficient = ground_effect_coefficient(state->position.z);
+  float ge_coefficient = ground_effect_coefficient(state->position.z);
   float ce_coefficient = ceiling_effect_coefficient(state->position.z);
 
   float motor_thrust = control->thrust / ge_coefficient / ce_coefficient; //The thrust that actually needs to be provided by the motors
