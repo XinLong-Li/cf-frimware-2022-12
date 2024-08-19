@@ -26,13 +26,6 @@
 #define PROPELLER_RADIUS 0.023f // radius of the crazyflie2.1 propeller
 #define QUADROTOR_MASS 0.5f    // mass of the quadrotor
 
-#define NO_CEILING TRUE // TRUE: no ceiling, FALSE: with ceiling
-#if defined(NO_CEILING) 
-    #define CEILING_HIGHT ((float)INFINITY) // height of the ceiling plane
-#else
-    #define CEILING_HIGHT 0.2f // height of the ceiling plane
-#endif
-
 
 
 /**
@@ -42,11 +35,13 @@
  */
 float ceiling_effect_coefficient(float z_position);
 
+
 /**
  * @brief Calculate the ground effect coefficient based on the z-axis position of the quadrotor
  * @param z_position The z-axis position of the quadrotor
  * @return The ground effect coefficient
  */
 float ground_effect_coefficient(float z_position);
+
 
 #endif // LXL_PROXIMITY_EFFECTS_H

@@ -1,7 +1,9 @@
 #include "lxl_proximity_effects.h"
 #include <math.h>
 
-
+#define CEILING_HEIGHT 0.2f // height of the ceiling plane
+#define GROUND_HEIGHT 0.0f // default ground height is zero, change according to the height of garage floor
+#define NO_CEILING_EFFECT TRUE // TRUE: no ceiling, FALSE: with ceiling
 #define NO_GROUND_EFFECT TRUE // TRUE: no ground effect, FALSE: with ground effect
 
 /**
@@ -12,7 +14,7 @@
  */
 static float distance_to_ceiling(float z_position)
 {
-    float dist_to_ceiling = CEILING_HIGHT - z_position;
+    float dist_to_ceiling = CEILING_HEIGHT - z_position;
     return dist_to_ceiling;
 }
 
@@ -27,9 +29,14 @@ float ceiling_effect_coefficient(float z_position)
     float ce_coefficient;
     float dist_to_ceiling = distance_to_ceiling(z_position); // The unit is meter(m).
 
-    // The nominal minmum distance from propeller plane to ceiling plane,
+    if (NO_CEILING_EFFECT)
+    {
+        return 1.0f;
+    }
+
+    // The nominal minimum distance from propeller plane to ceiling plane,
     // if h_ceiling = 0.1R, Then ce_coefficient = 4.37
-    if (dist_to_ceiling < 0.25f * PROPELLER_RADIUS)
+    if (dist_to_ceiling <= 0.25f * PROPELLER_RADIUS)
     {
         // where we let h_ceiling = 0.25R
         ce_coefficient = 1.37;
@@ -52,7 +59,7 @@ float ceiling_effect_coefficient(float z_position)
  */
 static float distance_to_ground(float z_position)
 {
-    float dist_to_ground = z_position;
+    float dist_to_ground = z_position - GROUND_HEIGHT;
     return dist_to_ground;
 }
 
@@ -72,9 +79,9 @@ float ground_effect_coefficient(float z_position)
         return 1.0f;
     }
 
-    // The nominal minmum distance from propeller plane to ground plane,
+    // The nominal minimum distance from propeller plane to ground plane,
     // if h_ground = 0.25R, Then ge_coefficient = infinity
-    if (dist_to_ground < 0.5f * PROPELLER_RADIUS)
+    if (dist_to_ground <= 0.5f * PROPELLER_RADIUS)
     {
         ge_coefficient = 2.0;
     }
