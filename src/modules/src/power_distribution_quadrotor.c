@@ -59,14 +59,17 @@ void powerDistribution(motors_thrust_t* motorPower, const control_t *control, co
 {
   int16_t r = control->roll / 2.0f; // devide by 2 because this is a 'X' quadrotor
   int16_t p = control->pitch / 2.0f;
-  float ge_coefficient = 1.0; // ground effect coefficient, usually it is bigger than 1.0
-  float ce_coefficient = 1.0; // ceiling effect coefficient, usually it is bigger than 1.0
+  // float ge_coefficient = 1.0; // ground effect coefficient, usually it is bigger than 1.0
+  // float ce_coefficient = 1.0; // ceiling effect coefficient, usually it is bigger than 1.0
 
-  if (state->position.x > 0.5f && state->position.x < 1.0f) // Here is the garage area.
-  {
-     ce_coefficient = ceiling_effect_coefficient(state->position.z); // set NO_CEILING_EFFECT to FALSE to enable calculation
-     ge_coefficient = ground_effect_coefficient(state->position.z); // set NO_GROUND_EFFECT to FALSE to enable calculation
-  }
+  // if (state->position.x > 0.5f && state->position.x < 1.0f) // Here is the garage area.
+  // {
+  //    ce_coefficient = ceiling_effect_coefficient(state->position.z); // set NO_CEILING_EFFECT to FALSE to enable calculation
+  //    ge_coefficient = ground_effect_coefficient(state->position.z); // set NO_GROUND_EFFECT to FALSE to enable calculation
+  // }
+  float ce_coefficient = ceiling_effect_coefficient(state->position.z); // set NO_CEILING_EFFECT to FALSE to enable calculation
+  float ge_coefficient = ground_effect_coefficient(state->position.z); // set NO_GROUND_EFFECT to FALSE to enable calculation
+
 
   float motor_thrust = control->thrust / ge_coefficient / ce_coefficient; //The thrust that actually needs to be provided by the motors
   motorPower->m1 = limitThrust(motor_thrust - r + p + control->yaw);

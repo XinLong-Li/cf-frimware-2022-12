@@ -24,7 +24,7 @@
 
 #define GRAVITY_ACC 9.81f      // gravity acceleration
 #define PROPELLER_RADIUS 0.023f // radius of the crazyflie2.1 propeller
-#define QUADROTOR_MASS 0.5f    // mass of the quadrotor
+#define QUADROTOR_MASS 0.05f    // mass of the quadrotor
 
 
 
