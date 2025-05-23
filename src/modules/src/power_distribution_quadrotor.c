@@ -59,23 +59,27 @@ void powerDistribution(motors_thrust_t* motorPower, const control_t *control, co
 {
   int16_t r = control->roll / 2.0f; // devide by 2 because this is a 'X' quadrotor
   int16_t p = control->pitch / 2.0f;
-  // float ge_coefficient = 1.0; // ground effect coefficient, usually it is bigger than 1.0
-  // float ce_coefficient = 1.0; // ceiling effect coefficient, usually it is bigger than 1.0
-
-  // if (state->position.x > 0.5f && state->position.x < 1.0f) // Here is the garage area.
-  // {
-  //    ce_coefficient = ceiling_effect_coefficient(state->position.z); // set NO_CEILING_EFFECT to FALSE to enable calculation
-  //    ge_coefficient = ground_effect_coefficient(state->position.z); // set NO_GROUND_EFFECT to FALSE to enable calculation
-  // }
-  float ce_coefficient = ceiling_effect_coefficient(state->position.z); // set NO_CEILING_EFFECT to FALSE to enable calculation
-  float ge_coefficient = ground_effect_coefficient(state->position.z); // set NO_GROUND_EFFECT to FALSE to enable calculation
-
-
-  float motor_thrust = control->thrust / ge_coefficient / ce_coefficient; //The thrust that actually needs to be provided by the motors
-  motorPower->m1 = limitThrust(motor_thrust - r + p + control->yaw);
-  motorPower->m2 = limitThrust(motor_thrust - r - p - control->yaw);
-  motorPower->m3 = limitThrust(motor_thrust + r - p + control->yaw);
-  motorPower->m4 = limitThrust(motor_thrust + r + p - control->yaw);
+  
+  if(ENABLE_INDIVIDUAL_MOTOR_CORRECTION)
+  { // Correct each motor's speed individually
+    float motor_thrust = control->thrust; 
+    float sqrt_delta[4] = {1.0f, 1.0f, 1.0f, 1.0f}; //motor speed correction coefficients for each motor
+    calculate_motor_correction_coefficients(state, sqrt_delta);
+    motorPower->m1 = limitThrust((motor_thrust - r + p + control->yaw) / sqrt_delta[0]);
+    motorPower->m2 = limitThrust((motor_thrust - r - p - control->yaw) / sqrt_delta[1]);
+    motorPower->m3 = limitThrust((motor_thrust + r - p + control->yaw) / sqrt_delta[2]);
+    motorPower->m4 = limitThrust((motor_thrust + r + p - control->yaw) / sqrt_delta[3]);
+  }
+  else
+  { // Correct the total thrust 
+    float ce_coefficient = ceiling_effect_coefficient(state->position.x, state->position.y, state->position.z);
+    float ge_coefficient = ground_effect_coefficient(state->position.x, state->position.y, state->position.z);
+    float motor_thrust = control->thrust / ce_coefficient / ge_coefficient; 
+    motorPower->m1 = limitThrust(motor_thrust - r + p + control->yaw);
+    motorPower->m2 = limitThrust(motor_thrust - r - p - control->yaw);
+    motorPower->m3 = limitThrust(motor_thrust + r - p + control->yaw);
+    motorPower->m4 = limitThrust(motor_thrust + r + p - control->yaw);
+  }
 
   if (motorPower->m1 < idleThrust) {
     motorPower->m1 = idleThrust;
