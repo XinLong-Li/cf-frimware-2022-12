@@ -16,7 +16,7 @@ static const float GROUND_HEIGHT = 0.745f;                          // The heigh
 static const float CEILING_HEIGHT = 0.835f;  // The height of the hangar ceiling
 
 // The hangar region, the unit is meter(m)
-static const float X_ADVC = 0.032f; // Deceleration advance distance, corresponds to response lag
+static const float X_ADVC = 0.032f*2.0f; // Deceleration advance distance, corresponds to response lag
 static const float HANGAR_X_MIN =  0.155f;
 static const float HANGAR_X_MAX =  0.377f;
 static const float HANGAR_Y_MIN = -0.122f;
@@ -50,7 +50,7 @@ float ceiling_effect_coefficient(float x, float y, float z)
     }
 
     // if in the hangar region, there exists ceiling effect
-    else if (x > (HANGAR_X_MIN - X_ADVC*3) && x < HANGAR_X_MAX && y > HANGAR_Y_MIN && y < HANGAR_Y_MAX)
+    else if (x > (HANGAR_X_MIN - X_ADVC) && x < HANGAR_X_MAX && y > HANGAR_Y_MIN && y < HANGAR_Y_MAX)
     {
         ce_coefficient = 0.5f + 0.5f * sqrtf(1.0f + (PROPELLER_RADIUS * PROPELLER_RADIUS) / (8.0f * dist_to_ceiling * dist_to_ceiling));
         // ce_coefficient = (dist_to_ceiling <= 0.25f * PROPELLER_RADIUS) ? 1.37f : ce_coefficient;
@@ -85,7 +85,7 @@ float ground_effect_coefficient(float x, float y, float z)
         return 1.0f;
     }
 
-    else if (x > HANGAR_X_MIN && x < HANGAR_X_MAX && y > HANGAR_Y_MIN && y < HANGAR_Y_MAX)
+    else if (x > (HANGAR_X_MIN - X_ADVC) && x < HANGAR_X_MAX && y > HANGAR_Y_MIN && y < HANGAR_Y_MAX)
     {
          ge_coefficient = 1.0f / (1.0f - powf((PROPELLER_RADIUS / (4.0f * dist_to_ground)), 2.0f));
         // ge_coefficient = (dist_to_ground <= 0.5f * PROPELLER_RADIUS) ? 1.33f : ge_coefficient;
@@ -107,6 +107,20 @@ void calculate_motor_correction_coefficients(const state_t* state, float sqrt_de
     float y = state->attitudeQuaternion.y;
     float z = state->attitudeQuaternion.z;
     float w = state->attitudeQuaternion.w; //real part
+
+    // w is the real part.
+    /*
+     * In the `controller_mellinger.c`, the quaternion is constructed as follows:
+      * struct quat q = mkquat(state->attitudeQuaternion.x,
+      * state->attitudeQuaternion.y, state->attitudeQuaternion.z,state->attitudeQuaternion.w);
+      * struct mat33 R = quat2rotmat(q);
+    */
+    /*
+    * In the `estimator_kalman.c`, there is following code:
+    *  
+    * @brief Estimated Attitude quarternion w
+    * LOG_ADD(LOG_FLOAT, q0, &coreData.q[0])
+    */
 
     // Not sure the order of the quaternion in attitudeQuaternion, which element is the real part
     // float w = state->attitudeQuaternion.x; // real part
