@@ -1,9 +1,12 @@
+# Flash
+
 ## Flash the firmware into the Crazyflie
 
 ### Press the power butter for 3 seconds to enter bootloader mode and then type `make cload` in the terminal.
 
 
 ### Automatically enter bootloader mode
+
 * Make sure the Crazyflie is on
 * In your terminal, run `CLOAD_CMDS="-w radio://0/80/2M" make cload`
 

@@ -16,8 +16,8 @@ static const float GROUND_HEIGHT = 0.745f;                          // The heigh
 static const float CEILING_HEIGHT = 0.835f;  // The height of the hangar ceiling
 
 // The hangar region, the unit is meter(m)
-static const float X_ADVC = 0.032f*2.0f; // Deceleration advance distance, corresponds to response lag
-static const float HANGAR_X_MIN =  0.155f;
+static const float X_ADVC = 0.032f*0.0f; // Deceleration advance distance, corresponds to response lag
+static const float HANGAR_X_MIN =  0.110f;
 static const float HANGAR_X_MAX =  0.377f;
 static const float HANGAR_Y_MIN = -0.122f;
 static const float HANGAR_Y_MAX =  0.293f;

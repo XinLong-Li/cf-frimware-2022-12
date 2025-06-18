@@ -16,7 +16,7 @@
 
 #include "stabilizer_types.h"  // 包含 state_t 的定义
 
-#define ENABLE_INDIVIDUAL_MOTOR_CORRECTION 0  // Set to 1 to enable individual correction for each motor's speed ;  0 disable.
+#define ENABLE_INDIVIDUAL_MOTOR_CORRECTION 1  // Set to 1 to enable individual correction for each motor's speed ;  0 disable.
 
 
 /**
